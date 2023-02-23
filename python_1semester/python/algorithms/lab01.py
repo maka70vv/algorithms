@@ -1,5 +1,4 @@
 import math
-import matplotlib.pyplot as plt
 
 def f(x):
     return (x-1)**2
@@ -44,49 +43,58 @@ def gold (a, b, E):
     y = f(x)
     return round(y, 3)
 
+def fibonacci(n):
+    fib1 = 1
+    fib2 = 1
+    for i in range (n-3):
+        while i < n - 2:
+            fib_sum = fib1 + fib2
+            fib1 = fib2
+            fib2 = fib_sum
+            i = i + 1
+            F.append(fib_sum)
+
 
 def fibonacci_search(a, b, n):
-    x1 = a + (b-a) * (f(n-2)/f(n))
-    x2 = a + (b-a) * (f(n-1)/f(n))
-    y1 = f(x1)
-    y2 = f(x2)
-    while n != 1:
-        if y1<y2:
-            b = x2
-            x2 = x1
-            x1 = a + (b - x2)
-        else:
-            a = x1
-            x1 = x2
-            x2 = b - (x1 - a)
-        n -= 1
-        x = x1 = x2
-    return x
+    for i in range(n):
+        x1 = a + (b-a) * (F[n-2]/F[n-1])
+        x2 = a + (b-a) * (F[n-1]/F[n])
+        y1 = f(x1)
+        y2 = f(x2)
+        while n != 1:
+            if y1<y2:
+                x1 = x2
+                x2 = b - (x1 - a)
+                y1 = y2
+                y2 = f(x2)
+            else:
+                b = x2
+                x2 = x1
+                x1 = a + (b - x2)
+                y2 = y1
+                y1 = f(x1)
+            n -= 1
+            res = (y1+y2)/2
+    fibonacci_results.append(res)
 
 
 
-a = int(input("Input a "))
-b = int(input("Input b "))
+a = int(input("Input a: "))
+b = int(input("Input b: "))
+n = int(input("Input 'n' for Fibonacci: "))
 E_list = [10**(-i) for i in range(1, 11)]
 dichotomy_results = []
 golden_ratio_results = []
 fibonacci_results = []
+F = [1, 1]
+fibonacci = fibonacci(n)
+fibonacci_result = fibonacci_search(a, b, n)
+
 
 
 for E in E_list:
     dichotomy_results.append(dichotomy(a, b, E))
     golden_ratio_results.append(gold(a, b, E))
-    fibonacci_results.append(fibonacci_search(a, b, 8))
-
-
-plt.plot([-i for i in range(1, 11)], dichotomy_results, label='Dichotomy')
-plt.plot([-i for i in range(1, 11)], golden_ratio_results, label='Golden ratio')
-plt.plot(fibonacci_results, label='Fibonacci')
-
-plt.xlabel('-log(eps)')
-plt.ylabel('Number of function evaluations')
-plt.legend()
-plt.show()
 
 print("Dichotomy = ", dichotomy_results)
 print("Gold = ", golden_ratio_results)

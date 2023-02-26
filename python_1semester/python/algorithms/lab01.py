@@ -1,32 +1,40 @@
-import math
-
+from math import *
 
 def f(x):
-    return (x-1)**2
+    return 2*x**2 - 5*x - 10
 
 def dichotomy (a, b, E):
+    counter = 0
     d = 0.1*E
-    while b-a > E:
-        x1 = (a+b)/2 - d
+    print("Dichotomy = ")
+    while (b - a) > E:
+        x1 = ((a + b) / 2) - d
         f1 = f(x1)
-        x2 = (a+b/2)+d
+        x2 = ((a + b) / 2) + d
         f2 = f(x2)
-        if f1<f2:
+        if f1 < f2:
             b = x2
-        else:
+        if f1 >= f2:
             a = x1
-    x = (a+b)/2
-    y = f(x)
-    return round(y, 3)
-
+        counter += 1
+        print(counter)
+        x = (a + b) / 2
+        print(x)
+        print(f(x))
+    x = (a + b) / 2
+    print(x)
+    print(f(x))
+    print('-'*200)
 
 def gold (a, b, E):
-    k2 = (math.sqrt(5)-1)/2
+    k2 = (sqrt(5)-1)/2
     k1 = 1-k2
     x1 = a+k1*(b-a)
     x2 = a+k2*(b-a)
     f1 = f(x1)
     f2 = f(x2)
+    counter = 0
+    print("Golden Ration = ")
     while (b-a)>E:
         if f1>f2:
             b = x2
@@ -40,64 +48,60 @@ def gold (a, b, E):
             f1 = f2
             x2 = a+k2*(b-a)
             f2 = f(x2)
-    x = (a+b)/2
-    y = f(x)
-    return round(y, 3)
-
-def fibonacci(n):
-    fib1 = 1
-    fib2 = 1
-    for i in range (n-3):
-        while i < n - 2:
-            fib_sum = fib1 + fib2
-            fib1 = fib2
-            fib2 = fib_sum
-            i = i + 1
-            F.append(fib_sum)
+        counter += 1
+        print(counter)
+        print(f'x1 = {x1}, f(x1) = {f(x1)}')
+        print(f'x2 = {x2}, f(x2) = {f(x2)}')
+    print('-' * 200)
 
 
-def fibonacci_search(a, b, n):
-    for i in range(n):
-        x1 = a + (b-a) * (F[n-2]/F[n-1])
-        x2 = a + (b-a) * (F[n-1]/F[n])
-        y1 = f(x1)
-        y2 = f(x2)
-        while n != 1:
-            if y1<y2:
-                x1 = x2
-                x2 = b - (x1 - a)
-                y1 = y2
-                y2 = f(x2)
-            else:
-                b = x2
+def fibonacci(number):
+    num = 0
+    next_num = 1
+    if number == 0:
+        return 0
+    for i in range(number):
+        last_num = num
+        num = next_num
+        next_num = last_num + num
+    return num
+
+def search_fibonacci(a, b, N, E):
+    print("Fibonacci:")
+    x0 = a
+    x3 = b
+    l1 = (b - a)
+    p1 = l1 * fibonacci(N - 1)
+    p2 = E * pow(-1.0, N)
+    l2 = (p1 + p2) / fibonacci(N)
+    x2 = l2 + a
+    for i in range(N):
+        x1 = x0 - x2 + x3
+        fx1 = f(x1)
+        fx2 = f(x2)
+        if fx2 > fx1:
+            if x1 < x2:
+                x3 = x2
                 x2 = x1
-                x1 = a + (b - x2)
-                y2 = y1
-                y1 = f(x1)
-            n -= 1
-            res = (y1+y2)/2
-    fibonacci_results.append(res)
+            else:
+                x0 = x2
+                x2 = x1
+        else:
+            if x1 < x2:
+                x0 = x1
+            else:
+                x3 = x1
+        print(f'x1 = {x1}; f(x1) = {fx1}; x2 = {x2}; f(x2) = {fx2}')
+    print(f'For N = {N} eps = {abs(x3 - x0)}')
 
 
 
 a = int(input("Input a: "))
 b = int(input("Input b: "))
 n = int(input("Input 'n' for Fibonacci: "))
-E_list = [10**(-i) for i in range(1, 11)]
-dichotomy_results = []
-golden_ratio_results = []
-fibonacci_results = []
-F = [1, 1]
-fibonacci = fibonacci(n)
-fibonacci_result = fibonacci_search(a, b, n)
+E = 10**(-7)
 
 
-
-for E in E_list:
-    dichotomy_results.append(dichotomy(a, b, E))
-    golden_ratio_results.append(gold(a, b, E))
-
-print("Dichotomy = ", dichotomy_results)
-print("Gold = ", golden_ratio_results)
-print("Fibonacci = ", fibonacci_results)
-
+dichot = dichotomy(a, b, E)
+golden_ratio = gold(a, b, E)
+fibonacci_result = search_fibonacci(a, b, n, E)

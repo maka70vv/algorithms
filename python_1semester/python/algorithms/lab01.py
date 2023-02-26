@@ -1,9 +1,11 @@
+import time
 from math import *
 
 def f(x):
     return 2*x**2 - 5*x - 10
 
 def dichotomy (a, b, E):
+    start_time = time.perf_counter()
     counter = 0
     d = 0.1*E
     print("Dichotomy = ")
@@ -24,9 +26,13 @@ def dichotomy (a, b, E):
     x = (a + b) / 2
     print(x)
     print(f(x))
+    end_time = time.perf_counter()
+    total_time = end_time - start_time
+    print(f"Время выполнения программы: {total_time:.4f} секунд")
     print('-'*200)
 
 def gold (a, b, E):
+    start_time = time.perf_counter()
     k2 = (sqrt(5)-1)/2
     k1 = 1-k2
     x1 = a+k1*(b-a)
@@ -52,6 +58,9 @@ def gold (a, b, E):
         print(counter)
         print(f'x1 = {x1}, f(x1) = {f(x1)}')
         print(f'x2 = {x2}, f(x2) = {f(x2)}')
+    end_time = time.perf_counter()
+    total_time = end_time - start_time
+    print(f"Время выполнения программы: {total_time:.4f} секунд")
     print('-' * 200)
 
 
@@ -67,6 +76,7 @@ def fibonacci(number):
     return num
 
 def search_fibonacci(a, b, N, E):
+    start_time = time.perf_counter()
     print("Fibonacci:")
     x0 = a
     x3 = b
@@ -93,6 +103,9 @@ def search_fibonacci(a, b, N, E):
                 x3 = x1
         print(f'x1 = {x1}; f(x1) = {fx1}; x2 = {x2}; f(x2) = {fx2}')
     print(f'For N = {N} eps = {abs(x3 - x0)}')
+    end_time = time.perf_counter()
+    total_time = end_time - start_time
+    print(f"Время выполнения программы: {total_time:.4f} секунд")
 
 
 

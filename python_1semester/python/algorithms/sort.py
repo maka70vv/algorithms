@@ -1,5 +1,6 @@
 #Вариант 2.
 # 3)Удалить в массиве последнюю группу из двух подряд идущих отрицательных чисел. Если удаление элементов невозможно, выдать об этом сообщение.
+import time
 from random import *
 import math
 
@@ -64,6 +65,7 @@ def introSort(arr,d):
         return
     elif d == 0:
         heapSort(arr)
+        print(arr)
     else:
         p = partition(arr)
         a1 = arr[:p]
@@ -168,11 +170,11 @@ transpSort = transposition_sort(arr)
 
 def quicksort(alist, start, end):
     if end - start > 1:
-        p = partition(alist, start, end)
+        p = part(alist, start, end)
         quicksort(alist, start, p)
         quicksort(alist, p + 1, end)
 
-def partition(alist, start, end):
+def part(alist, start, end):
     pivot = alist[start]
     i = start + 1
     j = end - 1
